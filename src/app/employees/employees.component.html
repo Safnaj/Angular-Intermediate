@@ -1,17 +1,18 @@
 <div class="card">
     <div class="card-header">
-        {{title}}
+        <h4>{{title}}</h4><br/>
+        {{message}}
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-md-2">Designation Filter :</div>
             <div class="col-md-4">
-                <input type="text" />
+                <input type="text" [(ngModel)]="designationFilter" />
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h6>Filtered By</h6>
+                <h6>Filtered By : {{designationFilter}}</h6>
             </div>
         </div>
         <div class="table-responsive">
@@ -29,15 +30,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let employee of employees">
+                    <tr *ngFor="let emp of filteredEmployees">
                         <td>
-                            <img [src]="employee.icon" *ngIf="showAvatar">
+                            <img [src]="emp.icon" *ngIf="showAvatar">
                         </td>
-                        <td>{{employee.firstName}}</td>
-                        <td>{{employee.lastName}}</td>
-                        <td>{{employee.designation}}</td>
-                        <td>{{employee.insuranceBalance | currency : "LKR" | lkrFormatter : "Rs: "}}</td>
-                        <td>{{employee.rbtProgress}}</td>
+                        <td>{{emp.firstName}}</td>
+                        <td>{{emp.lastName}}</td>
+                        <td>{{emp.designation}}</td>
+                        <td>{{emp.insuranceBalance | currency : "LKR" | lkrFormatter : "Rs: "}}</td>
+                        <!-- <td>{{employee.rbtProgress}}</td> -->
+                        <td>
+                            <app-progress-bar 
+                                [progress]='emp.rbtProgress' 
+                                [firstName]='emp.firstName'
+                                (progressClick)='onMessageRecived($event)'
+                            >
+                            </app-progress-bar>
+                        </td>
                     </tr>
                 </tbody> 
             </table>

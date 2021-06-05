@@ -1,3 +1,4 @@
+import { Employee } from './Employee.model';
 import { Component, OnInit } from '@angular/core';
 import employees from './data/employees.json';
 
@@ -9,8 +10,22 @@ import employees from './data/employees.json';
 export class EmployeesComponent implements OnInit {
 
   title : string = "Employee Management System";
-  employees : any[] = employees;
+  employees : Employee[] = employees;
+  filteredEmployees : Employee[] = employees;
   showAvatar : boolean = false;
+  message : string = '';
+  private _designationFilter : string = '';
+
+  //Setter
+  set designationFilter(value: string){
+    this._designationFilter = value;
+    this.filterByDesignation();
+  }
+
+  //Getter
+  get designationFilter(){
+    return this._designationFilter;
+  }
 
   constructor() { }
 
@@ -19,5 +34,13 @@ export class EmployeesComponent implements OnInit {
 
   toggleAvatar() {
     this.showAvatar = !this.showAvatar;
+  }
+
+  filterByDesignation() {
+    this.filteredEmployees = this.employees.filter(emp => emp.designation.includes(this.designationFilter));
+  }
+
+  onMessageRecived(value: string) {
+    this.message = value;
   }
 }
